@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  api_v1:
+    container_name: api_v1
+    image: juliocesarmidia/http-simple-api:v1.0.0
+    ports:
+      - 9000:9000
+    environment:
+      API_PORT: 9000
+      MESSAGE: API v1
+    networks:
+      custom:
+        ipv4_address: 172.19.100.2
+
+networks:
+  custom:
+    external:
+      name: custom-external-net

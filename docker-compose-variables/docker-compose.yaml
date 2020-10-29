@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  api_v1:
+    container_name: api_v1
+    image: juliocesarmidia/http-simple-api:v1.0.0
+    ports:
+      - 9000:9000
+    environment:
+      API_PORT: 9000
+      MESSAGE: ${MESSAGE:-API v1}

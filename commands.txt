@@ -1,0 +1,94 @@
+
+
+alpine
+
+busybox
+
+nginx
+
+mysql
+
+minio
+
+
+docker-compose
+
+
+
+/var/lib/docker/
+
+
+
+
+volumes
+
+network
+
+
+variables
+
+
+
+
+COMPOSE_PROJECT_NAME
+
+
+export COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml
+
+docker-compose -f COMPOSE_FILE -d up
+
+
+-- override docker-compose
+docker-compose.override.yml
+
+
+
+
+
+-- '--scale' serve para iniciar mais de uma instancia de um container
+docker-compose up -d --scale worker=3
+# it couldn't have `container_name`
+
+
+
+
+
+
+docker stats --all
+
+docker stats --no-stream
+
+docker stats --no-trunc
+
+
+
+
+
+
+docker container run --rm --interactive --tty --entrypoint "" juliocesarmidia/app-publisher:v1.0.0 sh
+
+
+docker container start -ai --entrypoint /bin/sh [container_name]
+
+
+docker exec -it [container_name] /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+
+
+
+
+'run' sempre cria um novo container
+comando 'run' realiza os seguintes comandos:
+
+  - docker image pull
+  baixar imagem
+
+  - docker container create
+  criação do container
+
+  - docker container start
+  inicialização do container
+
+  - docker container exec
+  execução do container
+
+
