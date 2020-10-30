@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile  # default is Dockerfile
+    ports:
+      - 9000:9000
+    restart: always
+    networks:
+      - custom
+    volumes:
+      - ./appv1:/app/v1:rw     # bind local dir to the container path, it will not have a docker volume
+      - appv2:/app/v2:rw       # named volume
+
+volumes:
+  appv2:
+
+# advanced volume definition, a named volume with binding
+# volumes:
+#   appv2:
+#     driver_opts:
+#       type: none
+#       device: /home/julio/Documents/projects/docker-studies/docker-compose-named-volumes/appv2
+#       o: bind
+
+networks:
+  custom:
+    driver: bridge

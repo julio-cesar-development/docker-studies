@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  app_v1:
+    container_name: app_v1
+    build:
+      context: .
+      dockerfile: Dockerfile  # default is Dockerfile
+    ports:
+      - 9000:9000
+    environment:
+      MYSQL_DATABASE: LOCAL_DB
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASS: NzkzMTM4MmIzY2I0NjJiNWFlYTM2NWMy
+    restart: "no"
+    networks:
+      - custom
+    volumes:
+      - ./:/app:rw
+
+  mysql-db:
+    container_name: mysql-db
+    image: mysql:8.0
+    command: [
+      "--default-authentication-plugin=mysql_native_password",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci"
+    ]
+    ports:
+      - 3336:3306/tcp
+    environment:
+      MYSQL_ROOT_PASSWORD: NzkzMTM4MmIzY2I0NjJiNWFlYTM2NWMy
+      MYSQL_DATABASE: LOCAL_DB
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql:rw
+      - mysql-volume:/var/lib/mysql:rw
+    networks:
+      - custom
+    restart: always
+
+volumes:
+  mysql-volume:
+
+networks:
+  custom:
+    driver: bridge

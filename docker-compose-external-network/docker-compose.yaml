@@ -11,7 +11,7 @@ services:
       MESSAGE: API v1
     networks:
       custom:
-        ipv4_address: 172.19.100.2
+        ipv4_address: 172.100.0.2
 
 networks:
   custom:

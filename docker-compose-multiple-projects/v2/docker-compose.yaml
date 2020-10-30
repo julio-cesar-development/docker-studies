@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  app_v2:
+    container_name: app_v2
+    build:
+      context: .
+      dockerfile: Dockerfile  # default is Dockerfile
+    ports:
+      - 9000:9000
+    environment:
+      MYSQL_DATABASE: LOCAL_DB
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASS: NzkzMTM4MmIzY2I0NjJiNWFlYTM2NWMy
+    restart: "no"
+    networks:
+      - custom
+    volumes:
+      - ./:/app:rw
+
+networks:
+  custom:
+    driver: bridge
