@@ -60,7 +60,8 @@ docker container run --rm -it -d --name busybox --network host busybox
 docker container run --rm -it --name alpine alpine:3.16.0
 
 # buildar imagem
-docker image build --tag custom-alpine:latest --build-args CEP_NUMBER=81130220 -f Dockerfile ./CustomAlpine
+# "./CustomAlpine/" é o build context
+docker image build --tag custom-alpine:latest --build-arg CEP_NUMBER=81130220 ./CustomAlpine/
 
 # executar container buildado
 docker container run --rm --name custom-alpine custom-alpine:latest
