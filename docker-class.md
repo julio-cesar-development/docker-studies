@@ -19,7 +19,7 @@ docker image inspect busybox:latest
 "Entrypoint": null,
 "Cmd": [
     "/bin/sh",
-    "-c",         # --rm (remover ap�s
+    "-c",
     "#(nop) ",
     "CMD [\"sh\"]"
 ],
@@ -53,6 +53,18 @@ docker container run --rm -it -d --name busybox busybox
 
 # --network=host define que usará a mesma rede do host
 docker container run --rm -it -d --name busybox --network host busybox
+
+
+
+# testes com alpine
+docker container run --rm -it --name alpine alpine:3.16.0
+
+# buildar imagem
+docker image build --tag custom-alpine:latest --build-args CEP_NUMBER=81130220 -f Dockerfile ./CustomAlpine
+
+# executar container buildado
+docker container run --rm --name custom-alpine custom-alpine:latest
+
 
 
 # executar comando no container depois de iniciado
