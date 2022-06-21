@@ -3,6 +3,7 @@
 ```bash
 
 # https://hub.docker.com/_/busybox
+# https://hub.docker.com/_/alpine
 
 # fazer pull de imagem
 # orientavel sempre utilizar uma tag especifica
