@@ -1,14 +1,22 @@
 # Docker
 
+## Comparação de Containers vs VMs
+
+![comparison](./containers-vs-vms.png)
+
+## Fluxo do Docker
+
+![flow](./docker-flow.png)
+
 ## What are containers
 
-Nothing but a process, isolated by the Linux system using some features of the Linux itself:
+Containers são processos, executados de forma isolada no Linux utilizando alguns recursos do próprio Linux como:
 
 - Namespaces
 - Chroot
 - Cgroup (control groups)
 
-There are 8 kinds of namespaces used in Linux:
+Há 8 namespaces utilizados no Linux:
 [https://en.wikipedia.org/wiki/Linux_namespaces](https://en.wikipedia.org/wiki/Linux_namespaces)
 
 - Mount (mnt)  
@@ -35,14 +43,6 @@ There are 8 kinds of namespaces used in Linux:
 - Time Namespace  
   Namespace para permitir que processos diferentes possam ter diferentes system times (horários do sistema)
 
-> Docker underlying technologies:
+> Tecnologias subjacente do Docker:
 
 [https://docs.docker.com/get-started/overview/#the-underlying-technology](https://docs.docker.com/get-started/overview/#the-underlying-technology)
-
-## Containers vs VMs comparison
-
-![comparison](./containers-vs-vms.png)
-
-## Docker flow
-
-![flow](./docker-flow.png)
