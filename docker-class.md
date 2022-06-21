@@ -56,20 +56,6 @@ docker container run --rm -it -d --name busybox --network host busybox
 
 
 
-# testes com alpine
-docker image inspect alpine:3.16.0
-
-docker container run --rm -it --name alpine alpine:3.16.0
-
-# buildar imagem
-# "./CustomAlpine/" é o build context
-docker image build --tag custom-alpine:latest --build-arg CEP_NUMBER=80010970 ./CustomAlpine/
-
-# executar container buildado
-docker container run --rm --name custom-alpine custom-alpine:latest
-
-
-
 # executar comando no container depois de iniciado
 docker container exec -it busybox sh
 docker container exec -it busybox /bin/sh
@@ -83,5 +69,25 @@ docker container ps -a
 # remover container (por nome ou por hash)
 docker container rm -f busybox
 docker container rm -f 67efad47fbae
+
+
+
+# testes com alpine
+docker image inspect alpine:3.16.0
+
+docker container run --rm -it --name alpine alpine:3.16.0
+
+# buildar imagem
+# "./custom-alpine/" é o build context
+docker image build --tag custom-alpine:latest ./custom-alpine/
+
+# executar container buildado
+docker container run --rm --name custom-alpine --env CEP_NUMBER=80010970 custom-alpine:latest
+
+
+# versão com build-arg
+docker image build --tag custom-alpine:latest --build-arg CEP_NUMBER=80010970 -f ./custom-alpine/Custom.Dockerfile ./custom-alpine/
+
+docker container run --rm --name custom-alpine custom-alpine:latest
 
 ```
