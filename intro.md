@@ -8,7 +8,7 @@
 
 ![flow](./docker-flow.png)
 
-## What are containers
+## O que são containers?
 
 Containers são processos, executados de forma isolada no Linux utilizando alguns recursos do próprio Linux como:
 
