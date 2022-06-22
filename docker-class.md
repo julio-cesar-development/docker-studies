@@ -41,6 +41,7 @@ docker container unpause busybox
 # "docker container run" faz pull da imagem, cria o container e faz start
 # "sh" no final do comando define o command que será passado ao container ao iniciar
 docker container run -it --name busybox busybox sh
+docker container run --interactive --tty --name busybox busybox sh
 
 # --rm (remove container ao parar a execução)
 docker container run --rm -it --name busybox busybox
@@ -81,6 +82,8 @@ docker container run --rm -it --name alpine alpine:3.16.0
 # buildar imagem
 # "./custom-alpine/" é o build context
 docker image build --tag custom-alpine:latest ./custom-alpine/
+
+docker image ls
 
 # executar container buildado
 docker container run --rm --name custom-alpine --env CEP_NUMBER=80010970 custom-alpine:latest
