@@ -12,7 +12,9 @@ docker exec -it alpine sh -c "apk update && apk add curl && apk add jq"
 
 # try out these packages
 docker exec -it alpine \
-  sh -c "curl --silent https://api.bitcointrade.com.br/v3/public/BRLBTC/ticker | jq ."
+  sh -c "curl --silent https://api.bitcointrade.com.br/v3/public/BRLBTC/ticker | jq . > /usr/local/bitcoin.json"
+
+docker exec -it alpine sh -c "cat /usr/local/bitcoin.json"
 
 
 # export container
@@ -46,6 +48,21 @@ mount -t tmpfs none /run
 mount -t sysfs none /sys
 
 
+cat /etc/os-release
+# NAME="Alpine Linux"
+# ID=alpine
+# VERSION_ID=3.12.0
+# PRETTY_NAME="Alpine Linux v3.12"
+# HOME_URL="https://alpinelinux.org/"
+# BUG_REPORT_URL="https://bugs.alpinelinux.org/"
+
+
 # cleanup
 docker container rm -f alpine
+
+
+# another way
+mkdir -p ./rootfs
+docker export $(docker create alpine:3.12.0) | tar -C ./rootfs/ -xvf -
+
 ```
