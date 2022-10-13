@@ -45,6 +45,10 @@ docker container run --rm --name debian --net none debian:10 bash -c "ping googl
 ```bash
 # default bridge
 
+# see route to docker bridge
+ip r
+# 172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+
 docker network inspect bridge
 # "172.17.0.0/16"
 docker network inspect bridge | grep "com.docker.network.bridge.name"
