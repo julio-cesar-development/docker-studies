@@ -25,6 +25,9 @@ docker container run --rm --name debian --net host debian:10 bash -c "ip a"
 docker container run --rm -d --name nginx --net host nginx:1-alpine
 docker container logs -f nginx
 curl -i http://localhost
+
+# could not run because the port 80 is already used
+docker container run --rm --name nginx2 --net host nginx:1-alpine
 ```
 
 
