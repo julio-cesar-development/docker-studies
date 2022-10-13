@@ -1,7 +1,5 @@
 # Docker container network
 
-> Custom networks provide automatic service discovery, using the Docker embedded DNS server
-
 Useful links:
 - [https://docs.docker.com/network/#default-networks](https://docs.docker.com/network/#default-networks)
 - [https://docs.docker.com/engine/reference/commandline/network_create/](https://docs.docker.com/engine/reference/commandline/network_create/)
@@ -109,6 +107,8 @@ tcpdump -i docker0 -Q in -vv -Q in -vv
 
 
 ## custom network bridge
+
+> Custom networks provide automatic service discovery, using the Docker embedded DNS server
 
 ```bash
 docker network create \
