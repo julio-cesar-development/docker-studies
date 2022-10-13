@@ -6,6 +6,9 @@ Useful links:
 - [https://www.aquasec.com/cloud-native-academy/docker-container/docker-networking/](https://www.aquasec.com/cloud-native-academy/docker-container/docker-networking/)
 - [https://earthly.dev/blog/docker-networking/](https://earthly.dev/blog/docker-networking/)
 
+## Diagram:
+
+![docker-network.drawio.png](./docker-network.drawio.png)
 
 ## Listing networks
 
