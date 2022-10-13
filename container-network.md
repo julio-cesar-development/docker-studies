@@ -2,6 +2,19 @@
 
 > Custom networks provide automatic service discovery, using the Docker embedded DNS server
 
+Useful links:
+- [https://docs.docker.com/network/#default-networks](https://docs.docker.com/network/#default-networks)
+- [https://docs.docker.com/engine/reference/commandline/network_create/](https://docs.docker.com/engine/reference/commandline/network_create/)
+- [https://www.aquasec.com/cloud-native-academy/docker-container/docker-networking/](https://www.aquasec.com/cloud-native-academy/docker-container/docker-networking/)
+- [https://earthly.dev/blog/docker-networking/](https://earthly.dev/blog/docker-networking/)
+
+
+## Listing networks
+
+```bash
+docker network ls
+```
+
 
 # network HOST
 
@@ -65,9 +78,20 @@ docker container exec -it debian bash -c "ping google.com"
 docker network disconnect bridge debian
 
 
-docker container run --rm -d --name nginx --net bridge --publish 80:80 nginx:1-alpine
+# https://docs.docker.com/network/overlay/#publish-ports
+
+docker container run --rm -d --name nginx --net bridge --publish 80:80/tcp nginx:1-alpine
+docker container inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx
 docker container logs -f nginx
 curl -i http://localhost
+
+tcpdump -i [interface] -Q in -vv
+
+# listening packets on docker0 interface
+tcpdump -i docker0 -Q in -n port 80 -vv
+
+# show packet content
+tcpdump -i docker0 -Q in -vv -Q in -vv
 ```
 
 
@@ -123,6 +147,10 @@ docker network disconnect bridge-net alpine1
 docker container inspect --format='{{json .NetworkSettings.Networks}}' alpine1
 
 docker network connect bridge-net alpine1
+
+
+docker container run --rm -d --name nginx --net bridge-net --publish 80:80/tcp nginx:1-alpine
+tcpdump -i br-bridge-net -Q in -n port 80 -vv
 ```
 
 
