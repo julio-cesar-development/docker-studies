@@ -79,13 +79,19 @@ docker network disconnect bridge debian
 
 
 # https://docs.docker.com/network/overlay/#publish-ports
+docker container run --rm -d --name nginx --net bridge nginx:1-alpine
+curl -i http://localhost
+curl -i http://172.17.0.2
+# using ssh tunel to access on external interface
+ssh -g -L 80:172.17.0.2:80 -N root@127.0.0.1
 
 docker container run --rm -d --name nginx --net bridge --publish 80:80/tcp nginx:1-alpine
+docker container port nginx
+
 docker container inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx
 docker container logs -f nginx
 curl -i http://localhost
 
-tcpdump -i [interface] -Q in -vv
 
 # listening packets on docker0 interface
 tcpdump -i docker0 -Q in -n port 80 -vv
