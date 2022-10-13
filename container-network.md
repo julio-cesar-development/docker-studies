@@ -109,9 +109,9 @@ tcpdump -i docker0 -Q in -vv -Q in -vv
 ```
 
 
-## custom network bridge
+## user-defined network bridge
 
-> Custom networks provide automatic service discovery, using the Docker embedded DNS server
+> User-defined networks provide automatic service discovery, using the Docker embedded DNS server
 
 ```bash
 docker network create \
