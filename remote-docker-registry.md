@@ -31,6 +31,7 @@ REGISTRY_USER="registryuser"
 REGISTRY_PASSWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9!@#$%&*(){}[]+-' | fold -w 16 | tr '[:upper:]' '[:lower:]' | head -n 1)
 echo "$REGISTRY_PASSWD"
 # e.g.: #cavmvlsyzoopegj
+REGISTRY_PASSWD="#cavmvlsyzoopegj"
 
 mkdir -p auth
 # htpasswd using bcrypt
