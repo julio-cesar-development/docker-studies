@@ -23,11 +23,19 @@ echo "data" > /var/lib/docker/volumes/named-volume-test/_data/file.txt
 
 # read write mount with named volume
 docker container run --rm -it --volume named-volume-test:/data --hostname alpine --name alpine alpine:3.16.0 sh
+docker container inspect alpine
 ls -lth /data
 cat /data/file.txt
 
+echo "data" > /data/file.txt
+
+
 docker container run -d -it --volume named-volume-test:/data --hostname alpine --name alpine alpine:3.16.0
+# is the same as:
 docker container run -d -it --volume named-volume-test:/data:rw --hostname alpine --name alpine alpine:3.16.0
+# is the same with mount:
+docker container run -d -it --mount source=named-volume-test,target=/data,readonly=false --hostname alpine --name alpine alpine:3.16.0
+
 
 docker container exec -it alpine sh
 mount | grep '/data'
@@ -40,6 +48,9 @@ docker container rm -f alpine
 
 # read only mount with named volume
 docker container run -d -it --volume named-volume-test:/data:ro --hostname alpine --name alpine alpine:3.16.0
+# is the same with mount:
+docker container run -d -it --mount source=named-volume-test,target=/data,readonly=true --hostname alpine --name alpine alpine:3.16.0
+
 docker container exec -it alpine sh
 rm -f /data/file.txt
 # rm: can't remove '/data/file.txt': Read-only file system
@@ -55,24 +66,24 @@ docker volume rm -f named-volume-test
 ## mapped volumes
 
 ```bash
-docker container run --rm -d --name nginx --net bridge --publish 8080:80 nginx:1-alpine
+CONTAINER_NAME='nginx'
+
+docker container run --rm -d --name $CONTAINER_NAME --net bridge --publish 8080:80 nginx:1-alpine
 
 # copy from container to local path
-CONTAINER_NAME='nginx'
 SRC_PATH=/usr/share/nginx/html/index.html
 DEST_PATH=$PWD/index.html
 docker cp $CONTAINER_NAME:$SRC_PATH $DEST_PATH
 
-# run a container with a mapped volume
-docker container run --rm -d --name nginx --net bridge --publish 8080:80 -v $PWD/index.html:/usr/share/nginx/html/index.html:ro nginx:1-alpine
-
 # copy from local path to container
-CONTAINER_NAME='nginx'
 SRC_PATH=$PWD/index.html
 DEST_PATH=/usr/share/nginx/html/index.html
 docker cp $SRC_PATH $CONTAINER_NAME:$DEST_PATH
 
-docker cp nginx:$PWD/index.html /usr/share/nginx/html/index.html
+# run a container with a mapped volume
+docker container run --rm -d --name $CONTAINER_NAME --net bridge --publish 8080:80 -v $PWD/index.html:/usr/share/nginx/html/index.html:ro nginx:1-alpine
+
+docker container rm -f $CONTAINER_NAME
 ```
 
 ## Prune/remove unused volumes
