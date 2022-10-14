@@ -12,6 +12,8 @@ docker volume ls
 # create a new volume called "named-volume-test"
 docker volume create named-volume-test
 
+# place where docker persists its files
+docker info | grep "Docker Root Dir"
 
 # inspect a volume
 docker volume inspect named-volume-test
