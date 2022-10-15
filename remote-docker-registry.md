@@ -147,9 +147,9 @@ BUCKET_NAME="<BUCKET_NAME>"
 sudo mkdir -p /home/ec2-user/certs/ && sudo mkdir -p /home/ec2-user/auth/
 sudo pip3 install --upgrade --user awscli
 sudo cp /root/.local/bin/aws /usr/local/bin/aws
-aws s3 cp s3://$BUCKET_NAME/auth/passwd /home/ec2-user/auth/passwd
-aws s3 cp s3://$BUCKET_NAME/certs/registry.key /home/ec2-user/certs/registry.key
-aws s3 cp s3://$BUCKET_NAME/certs/registry.crt /home/ec2-user/certs/registry.crt
+/usr/local/bin/aws s3 cp s3://$BUCKET_NAME/auth/passwd /home/ec2-user/auth/passwd
+/usr/local/bin/aws s3 cp s3://$BUCKET_NAME/certs/registry.key /home/ec2-user/certs/registry.key
+/usr/local/bin/aws s3 cp s3://$BUCKET_NAME/certs/registry.crt /home/ec2-user/certs/registry.crt
 sudo chown -R ec2-user:ec2-user /home/ec2-user/
 
 docker container run -d \
