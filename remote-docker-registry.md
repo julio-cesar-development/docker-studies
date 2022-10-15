@@ -5,7 +5,7 @@
 ## certs
 
 ```bash
-# DOMAIN="onaws.blackdevs.com.br"
+# DOMAIN="yourdomain.com"
 
 mkdir -p certs
 openssl genrsa -out certs/registry.key 4096
@@ -16,7 +16,7 @@ State or Province Name (full name) [Some-State]: PR
 Locality Name (eg, city) []: Curitiba
 Organization Name (eg, company) [Internet Widgits Pty Ltd]: Blackdevs
 Organizational Unit Name (eg, section) []:
-Common Name (e.g. server FQDN or YOUR name) []: registry.onaws.blackdevs.com.br
+Common Name (e.g. server FQDN or YOUR name) []: registry.yourdomain.com
 Email Address []:
 
 # output files:
@@ -187,40 +187,40 @@ ls -lth /var/lib/docker/volumes/registry-data/_data/docker/registry/v2/repositor
 ## configuration on local machine
 
 ```bash
-nslookup registry.onaws.blackdevs.com.br
-nc -v registry.onaws.blackdevs.com.br 5000
+nslookup registry.yourdomain.com
+nc -v registry.yourdomain.com 5000
 
 # update on local machine to allow insecure registry (because of self signed certificate)
 systemctl cat docker.service
 vim /lib/systemd/system/docker.service
 # ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
-ExecStart=/usr/bin/dockerd --insecure-registry registry.onaws.blackdevs.com.br:5000 -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=/usr/bin/dockerd --insecure-registry registry.yourdomain.com:5000 -H fd:// --containerd=/run/containerd/containerd.sock
 
 systemctl daemon-reload
 systemctl restart docker.service
 docker info | grep -A2 'Insecure Registries'
 
 
-docker image tag alpine:3.16.0 registry.onaws.blackdevs.com.br:5000/alpine:3.16.0
+docker image tag alpine:3.16.0 registry.yourdomain.com:5000/alpine:3.16.0
 
-docker image push registry.onaws.blackdevs.com.br:5000/alpine:3.16.0
+docker image push registry.yourdomain.com:5000/alpine:3.16.0
 # unauthorized: authentication required
 
 
 # login
-echo "$REGISTRY_PASSWD" | docker login -u "$REGISTRY_USER" --password-stdin registry.onaws.blackdevs.com.br:5000
+echo "$REGISTRY_PASSWD" | docker login -u "$REGISTRY_USER" --password-stdin registry.yourdomain.com:5000
 
-cat ~/.docker/config.json | grep 'registry.onaws.blackdevs.com.br:5000'
+cat ~/.docker/config.json | grep 'registry.yourdomain.com:5000'
 
-docker image push registry.onaws.blackdevs.com.br:5000/alpine:3.16.0
+docker image push registry.yourdomain.com:5000/alpine:3.16.0
 # Pushed
 
 
 docker images | awk '$2 ~ "alpine" {print $0}'
 
-docker image rm registry.onaws.blackdevs.com.br:5000/alpine:3.16.0
+docker image rm registry.yourdomain.com:5000/alpine:3.16.0
 
-docker image pull registry.onaws.blackdevs.com.br:5000/alpine:3.16.0
+docker image pull registry.yourdomain.com:5000/alpine:3.16.0
 
-docker logout registry.onaws.blackdevs.com.br:5000
+docker logout registry.yourdomain.com:5000
 ```
