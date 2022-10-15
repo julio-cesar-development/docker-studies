@@ -29,9 +29,8 @@ Email Address []:
 ```bash
 REGISTRY_USER="registryuser"
 REGISTRY_PASSWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9!@#$%&*(){}[]+-' | fold -w 16 | tr '[:upper:]' '[:lower:]' | head -n 1)
+# e.g.: REGISTRY_PASSWD="#cavmvlsyzoopegj"
 echo "$REGISTRY_PASSWD"
-# e.g.: #cavmvlsyzoopegj
-REGISTRY_PASSWD="#cavmvlsyzoopegj"
 
 mkdir -p auth
 # htpasswd using bcrypt
@@ -43,8 +42,8 @@ cat auth/passwd
 ## create a s3 bucket
 
 ```bash
-# BUCKET_NAME="registry-aws-bucket-$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | tr '[:upper:]' '[:lower:]' | head -n 1)"
-BUCKET_NAME="registry-aws-bucket-axpdig6a"
+BUCKET_NAME="registry-aws-bucket-$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | tr '[:upper:]' '[:lower:]' | head -n 1)"
+# e.g.: BUCKET_NAME="registry-aws-bucket-axpdig6a"
 echo "$BUCKET_NAME"
 
 BUCKET_REGION="us-east-1"
@@ -174,7 +173,7 @@ docker container run -d \
 
 ```bash
 # access ec2 console to check
-EC2_IP="3.92.56.87"
+EC2_IP="<IP>"
 ssh -i id_rsa.pem ec2-user@$EC2_IP
 
 docker container ps
