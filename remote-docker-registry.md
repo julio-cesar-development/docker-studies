@@ -44,7 +44,7 @@ cat auth/passwd
 
 ```bash
 # BUCKET_NAME="registry-aws-bucket-$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | tr '[:upper:]' '[:lower:]' | head -n 1)"
-BUCKET_NAME="registry-aws-bucket-tpreqmxi"
+BUCKET_NAME="registry-aws-bucket-axpdig6a"
 echo "$BUCKET_NAME"
 
 BUCKET_REGION="us-east-1"
@@ -55,9 +55,9 @@ aws s3api put-bucket-encryption \
   --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'
 
 # copy files to bucket
-aws s3 cp certs/registry.key s3://$BUCKET_NAME/certs/registry.key
-aws s3 cp certs/registry.crt s3://$BUCKET_NAME/certs/registry.crt
+aws s3 cp --recursive certs/ s3://$BUCKET_NAME/certs/
 aws s3 cp auth/passwd s3://$BUCKET_NAME/auth/passwd
+aws s3 ls s3://$BUCKET_NAME
 ```
 
 ## create a policy
@@ -119,6 +119,14 @@ export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 aws iam attach-role-policy \
   --role-name registry-aws-s3-access-role \
   --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/registry-aws-s3-access-policy
+
+# create the instance profile
+aws iam create-instance-profile --instance-profile-name registry-aws-instance-profile
+
+aws iam add-role-to-instance-profile --role-name registry-aws-s3-access-role --instance-profile-name registry-aws-instance-profile
+
+# to remove instance profile later
+# aws iam delete-instance-profile --instance-profile-name registry-aws-instance-profile
 ```
 
 ## create ec2
@@ -127,7 +135,7 @@ aws iam attach-role-policy \
 name: registry-aws
 AMI: ecs optimized - ami-00eb90638788e810f - amzn2-ami-ecs-hvm-2.0.20221010-x86_64-ebs (it has docker already installed and running)
 size: t2.micro
-iam instance profile: registry-aws-s3-access-role
+iam instance profile: registry-aws-instance-profile
 security group: create new registry-aws-sg (allow 22 and 5000)
 key Pair: create new (id_rsa) and download it
   chmod 400 id_rsa.pem
