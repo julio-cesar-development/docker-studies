@@ -49,6 +49,10 @@ echo "$BUCKET_NAME"
 
 BUCKET_REGION="us-east-1"
 aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$BUCKET_REGION" --acl private
+# use encryption with Amazon S3-managed keys (SSE-S3)
+aws s3api put-bucket-encryption \
+  --bucket "$BUCKET_NAME" \
+  --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'
 
 # copy files to bucket
 aws s3 cp certs/registry.key s3://$BUCKET_NAME/certs/registry.key
@@ -121,8 +125,8 @@ aws iam attach-role-policy \
 
 ```bash
 name: registry-aws
-AMI: ecs optimized ami-07da26e39622a03dc (it has docker already installed and running)
-size: t3.micro
+AMI: ecs optimized - ami-00eb90638788e810f - amzn2-ami-ecs-hvm-2.0.20221010-x86_64-ebs (it has docker already installed and running)
+size: t2.micro
 iam instance profile: registry-aws-s3-access-role
 security group: create new registry-aws-sg (allow 22 and 5000)
 key Pair: create new (id_rsa) and download it
