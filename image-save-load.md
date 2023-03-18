@@ -18,8 +18,14 @@ docker save --output dockerimage.tar $IMAGE_NAME_VERSION
 # or
 docker save $IMAGE_NAME_VERSION > dockerimage.tar
 
+# compact image to gz
+tar czvf dockerimage.tar.gz dockerimage.tar
+
 # remove pulled image
 docker image rm -f $IMAGE_NAME_VERSION
+
+# extract image from gz
+tar xzvf dockerimage.tar.gz
 
 # importing image (docker load)
 docker load -i dockerimage.tar
