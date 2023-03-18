@@ -6,12 +6,12 @@
 
 Examples:
 
-> docker.io/juliocesarmidia/http-simple-api:v1.0.0
+> docker.io/juliocesarmidia/go-micro-api:v1.0.0
 
-> gcr.io/juliocesarmidia/http-simple-api:v1.0.0
+> gcr.io/juliocesarmidia/go-micro-api:v1.0.0
 
 ```bash
-export IMAGE_NAME_VERSION="juliocesarmidia/http-simple-api:v1.0.0"
+export IMAGE_NAME_VERSION="juliocesarmidia/go-micro-api:v1.0.0"
 
 # exporting images (docker save)
 docker save --output dockerimage.tar $IMAGE_NAME_VERSION
