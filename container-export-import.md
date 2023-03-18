@@ -27,9 +27,11 @@ docker container run --rm -it --name alpine alpine:3.12.0-commit sh -c "cat /usr
 # export container filesystem
 docker container run --rm -i -d --name alpine alpine:3.12.0
 
-docker export alpine -o ./alpine.tar
+docker export <CONTAINER_NAME> --output <PATH_TAR_FILE>
+docker export alpine --output ./alpine.tar
 
 # import image from container
+docker import <PATH_TAR_FILE> <IMAGE>:<TAG>
 docker import ./alpine.tar alpine:3.12.0-export
 
 docker container run --rm -it --name alpine alpine:3.12.0-export sh -c "cat /usr/local/bitcoin.json"
