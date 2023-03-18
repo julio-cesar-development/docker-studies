@@ -8,8 +8,6 @@ Examples:
 
 > docker.io/juliocesarmidia/go-micro-api:v1.0.0
 
-> gcr.io/juliocesarmidia/go-micro-api:v1.0.0
-
 ```bash
 export IMAGE_NAME_VERSION="juliocesarmidia/go-micro-api:v1.0.0"
 
