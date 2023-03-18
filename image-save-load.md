@@ -1,10 +1,8 @@
-# Image save and load
+# Image - save and load
 
-> The full image format
+> Full image format
 
 `[REGISTRY_DOMAIN]/[REPOSITORY_PROJECT]/[IMAGE]:[TAG]`
-
-Examples:
 
 > docker.io/juliocesarmidia/go-micro-api:v1.0.0
 
@@ -12,6 +10,7 @@ Examples:
 export IMAGE_NAME_VERSION="juliocesarmidia/go-micro-api:v1.0.0"
 
 docker image pull $IMAGE_NAME_VERSION
+docker images | grep juliocesarmidia/go-micro-api
 
 # exporting images (docker save)
 docker save --output dockerimage.tar $IMAGE_NAME_VERSION
@@ -27,12 +26,17 @@ docker image rm -f $IMAGE_NAME_VERSION
 # extract image from gz
 tar xzvf dockerimage.tar.gz
 
+# copy with scp
+scp -i <privatekey.pem> ./dockerimage.tar <username>@<hostname>:/tmp/dockerimage.tar
+# e.g:
+scp -i ~/.ssh/id_rsa ./dockerimage.tar ubuntu@127.0.0.1:/tmp/dockerimage.tar
+
 # importing image (docker load)
 docker load -i dockerimage.tar
 # or
 docker load < dockerimage.tar
 
-# see files on each layer of the image
+# advanced: see files on each layer of the image
 mkdir -p ./dockerimage/ && \
   tar xf ./dockerimage.tar --ignore-command-error -C ./dockerimage/
 
