@@ -11,11 +11,20 @@ Examples:
 ```bash
 export IMAGE_NAME_VERSION="juliocesarmidia/go-micro-api:v1.0.0"
 
+docker image pull $IMAGE_NAME_VERSION
+
 # exporting images (docker save)
 docker save --output dockerimage.tar $IMAGE_NAME_VERSION
 # or
 docker save $IMAGE_NAME_VERSION > dockerimage.tar
 
+# remove pulled image
+docker image rm -f $IMAGE_NAME_VERSION
+
+# importing image (docker load)
+docker load -i dockerimage.tar
+# or
+docker load < dockerimage.tar
 
 # see files on each layer of the image
 mkdir -p ./dockerimage/ && \
@@ -33,10 +42,4 @@ for layer in ./*; do
   fi
 done
 popd
-
-
-# importing images (docker load)
-docker load -i dockerimage.tar
-# or
-docker load < dockerimage.tar
 ```
