@@ -2,10 +2,7 @@
 
 ```bash
 # run some container in background
-docker container run \
-  --rm -i -d \
-  --name alpine \
-  alpine:3.12.0 sh
+docker container run --rm -i -d --name alpine alpine:3.12.0
 
 # add some extra packages
 docker exec -it alpine sh -c "apk update && apk add curl && apk add jq"
@@ -14,17 +11,31 @@ docker exec -it alpine sh -c "apk update && apk add curl && apk add jq"
 docker exec -it alpine \
   sh -c "curl --silent https://api.bitcointrade.com.br/v3/public/BRLBTC/ticker | jq . > /usr/local/bitcoin.json"
 
+# check created file
 docker exec -it alpine sh -c "cat /usr/local/bitcoin.json"
 
 
-# export container
+# commiting changes into a new image tag
+docker container commit <CONTAINER_NAME> <IMAGE>:<TAG>
+docker container commit alpine alpine:3.12.0-commit
+
+docker container rm -f alpine
+ 
+docker container run --rm -it --name alpine alpine:3.12.0-commit sh -c "cat /usr/local/bitcoin.json"
+
+
+# export container filesystem
+docker container run --rm -i -d --name alpine alpine:3.12.0
+
 docker export alpine -o ./alpine.tar
 
-# import container
-docker import ./alpine.tar
+# import image from container
+docker import ./alpine.tar alpine:3.12.0-export
+
+docker container run --rm -it --name alpine alpine:3.12.0-export sh -c "cat /usr/local/bitcoin.json"
 
 
-# extract files from the container filesystem into a directory
+# advanced: extract files from the container filesystem into a directory
 mkdir -p ./rootfs && \
   tar xf ./alpine.tar --ignore-command-error -C ./rootfs/
 
@@ -47,7 +58,6 @@ mount -t devpts none /dev/pts
 mount -t tmpfs none /run
 mount -t sysfs none /sys
 
-
 cat /etc/os-release
 # NAME="Alpine Linux"
 # ID=alpine
@@ -56,13 +66,7 @@ cat /etc/os-release
 # HOME_URL="https://alpinelinux.org/"
 # BUG_REPORT_URL="https://bugs.alpinelinux.org/"
 
-
-# cleanup
-docker container rm -f alpine
-
-
 # another way
 mkdir -p ./rootfs
 docker export $(docker create alpine:3.12.0) | tar -C ./rootfs/ -xvf -
-
 ```
